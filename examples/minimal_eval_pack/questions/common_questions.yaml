@@ -1,0 +1,9 @@
+version: 1
+purpose: "公开题集。实验运行组可以读取；仅保留任务描述和公开元数据。"
+tasks:
+  - task_id: q01_example
+    category: 基础查询
+    module_under_test: basic_query
+    response_mode: query
+    expected_artifact_type: table
+    question: "统计每个地区的订单数量，并按订单数量从高到低排序。"

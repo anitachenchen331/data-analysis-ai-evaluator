@@ -1,0 +1,41 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+
+# Generated evaluation outputs often contain private data or answer keys.
+/eval-pack/
+/eval-packs/
+/results/
+/answers/
+/standard_sql/
+/questions/scoring_key_internal.yaml
+**/results/
+**/answers/
+**/standard_sql/
+**/questions/scoring_key_internal.yaml
+**/scoring_key_internal.yaml
+*.duckdb
+*.db
+*.sqlite
+*.sqlite3
+*.parquet
+*.csv
+
+# Local environment files.
+.env
+.env.*
+.venv/
+venv/
+
+# Keep the sanitized minimal example publishable.
+!/examples/
+!/examples/minimal_eval_pack/
+!/examples/minimal_eval_pack/answers/
+!/examples/minimal_eval_pack/answers/*.json
+!/examples/minimal_eval_pack/questions/
+!/examples/minimal_eval_pack/questions/scoring_key_internal.yaml
+!/examples/minimal_eval_pack/standard_sql/
+!/examples/minimal_eval_pack/standard_sql/*.sql

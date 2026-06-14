@@ -1,0 +1,12 @@
+version: 1
+purpose: "内部评分 key。仅评分阶段读取；实验运行组禁止读取。"
+tasks:
+  - task_id: q01_example
+    expected_logic: "按 region 分组，统计订单行数，并按订单数降序排列。"
+    expected_sql_path: "standard_sql/q01_example.sql"
+    expected_validation_method: "sql_answer_match"
+    answer_path: "answers/q01_example.json"
+    failure_type_candidates:
+      - 结构错误
+      - 计算错误
+    scoring_notes: "允许列名不同，但分组、计数和排序逻辑必须一致。"

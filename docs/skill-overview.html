@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Analysis AI Evaluator Skill Overview</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050816;
+      --panel: rgba(15, 23, 42, 0.82);
+      --panel-2: rgba(2, 6, 23, 0.62);
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #e5edf8;
+      --muted: #9aa8bb;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --violet: #a78bfa;
+      --amber: #fbbf24;
+      --rose: #fb7185;
+      --blue: #60a5fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .screen {
+      width: 1366px;
+      height: 768px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(34, 211, 238, 0.18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(167, 139, 250, 0.14), transparent 26%),
+        linear-gradient(135deg, #020617 0%, #0f172a 52%, #111827 100%);
+      padding: 28px 42px 24px;
+    }
+
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.78), rgba(0,0,0,0.18));
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: grid;
+      grid-template-rows: 88px 294px 294px;
+      gap: 18px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cyan);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 22px var(--cyan);
+    }
+
+    h1 {
+      margin: 10px 0 0;
+      font-size: 36px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .tagline {
+      padding: 16px 18px;
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      background: rgba(8, 51, 68, 0.35);
+      border-radius: 8px;
+      color: #c8f7ff;
+      font-size: 14px;
+      line-height: 1.55;
+      min-width: 0;
+    }
+
+    .flow-panel,
+    .architecture-panel {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 8px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+    }
+
+    .flow-panel {
+      padding: 18px 22px 16px;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .panel-title h2 {
+      margin: 0;
+      font-size: 17px;
+      letter-spacing: 0;
+    }
+
+    .panel-title span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 14px;
+      position: relative;
+    }
+
+    .flow::before {
+      content: "";
+      position: absolute;
+      top: 52px;
+      left: 70px;
+      right: 70px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--green), var(--violet), var(--amber));
+      opacity: 0.55;
+    }
+
+    .step {
+      position: relative;
+      min-height: 184px;
+      padding: 15px 14px 13px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(2, 6, 23, 0.66);
+      border-radius: 8px;
+      min-width: 0;
+    }
+
+    .step::after {
+      content: "";
+      position: absolute;
+      top: 46px;
+      right: -12px;
+      width: 18px;
+      height: 18px;
+      border-top: 2px solid rgba(226, 232, 240, 0.55);
+      border-right: 2px solid rgba(226, 232, 240, 0.55);
+      transform: rotate(45deg);
+      background: #0b1220;
+      z-index: 3;
+    }
+
+    .step:last-child::after {
+      display: none;
+    }
+
+    .num {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #02111a;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 16px;
+      box-shadow: 0 0 24px rgba(34, 211, 238, 0.18);
+    }
+
+    .step h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .cyan { background: var(--cyan); }
+    .green { background: var(--green); }
+    .violet { background: var(--violet); }
+    .amber { background: var(--amber); }
+    .rose { background: var(--rose); }
+    .blue { background: var(--blue); }
+
+    .architecture-panel {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr) 300px;
+      gap: 18px;
+      padding: 18px;
+      overflow: hidden;
+    }
+
+    .stack {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .module {
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: var(--panel-2);
+      border-radius: 8px;
+      padding: 13px 14px;
+    }
+
+    .module h3 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .module ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.7;
+    }
+
+    .center-map {
+      border: 1px dashed rgba(251, 191, 36, 0.42);
+      background: rgba(120, 53, 15, 0.16);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+    }
+
+    .map-title {
+      color: #ffe7aa;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .lanes {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .lane {
+      border-radius: 8px;
+      padding: 12px 10px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 23, 42, 0.68);
+      min-width: 0;
+    }
+
+    .lane h4 {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: #f8fafc;
+    }
+
+    .pill {
+      display: block;
+      padding: 7px 8px;
+      margin-bottom: 7px;
+      border-radius: 6px;
+      color: #dbe7f5;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      font-size: 10.5px;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+    }
+
+    .guardrail {
+      border-color: rgba(251, 113, 133, 0.42);
+      background: rgba(136, 19, 55, 0.2);
+    }
+
+    .guardrail h3 {
+      color: #ffd4dc;
+    }
+
+    .footer-note {
+      position: absolute;
+      right: 42px;
+      bottom: 18px;
+      color: rgba(148, 163, 184, 0.72);
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <main class="screen" aria-label="Data Analysis AI Evaluator skill overview">
+    <div class="content">
+      <header>
+        <section>
+          <div class="eyebrow"><span class="pulse"></span>Codex Skill Architecture</div>
+          <h1>Data Analysis AI Evaluator</h1>
+          <p class="subtitle">把数据分析类 AI 产品评测拆成可复用流程：先确认能力与边界，再隔离运行实验，最后用内部答案材料评分。</p>
+        </section>
+        <aside class="tagline">
+          适用于数据问答、SQL/查询生成、语义层、图表/看板、异动诊断、归因分析、自动报告与权限治理评测。
+        </aside>
+      </header>
+
+      <section class="flow-panel">
+        <div class="panel-title">
+          <h2>评测工作流</h2>
+          <span>Human-in-the-loop gates protect fairness and scope</span>
+        </div>
+        <div class="flow">
+          <article class="step">
+            <div class="num cyan">1</div>
+            <h3>产品调研</h3>
+            <p>读取公开资料或用户材料，整理产品能力、来源可信度和待确认项。</p>
+          </article>
+          <article class="step">
+            <div class="num green">2</div>
+            <h3>目标确认</h3>
+            <p>确认评测目的、能力范围、数据场景、权限和版本，避免测错方向。</p>
+          </article>
+          <article class="step">
+            <div class="num blue">3</div>
+            <h3>实验组设计</h3>
+            <p>定义对照组、产品组、上下文组、工具限制和禁止读取材料。</p>
+          </article>
+          <article class="step">
+            <div class="num violet">4</div>
+            <h3>蓝图与题集</h3>
+            <p>生成数据场景、指标口径、陷阱、问题矩阵和公开任务。</p>
+          </article>
+          <article class="step">
+            <div class="num amber">5</div>
+            <h3>隔离运行</h3>
+            <p>各组只读取允许材料，记录输出、工具证据、耗时、错误与修复过程。</p>
+          </article>
+          <article class="step">
+            <div class="num rose">6</div>
+            <h3>评分对比</h3>
+            <p>评分阶段才读取内部 key、标准 SQL、答案 JSON 和结果文件。</p>
+          </article>
+          <article class="step">
+            <div class="num green">7</div>
+            <h3>报告沉淀</h3>
+            <p>输出结论、失败类型和下一轮建议；经验写回前必须再次确认。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="architecture-panel">
+        <div class="stack">
+          <div class="module">
+            <h3><span class="dot cyan"></span>Skill 包里有什么</h3>
+            <ul>
+              <li>SKILL.md: 触发条件和总流程</li>
+              <li>references/: 每一步怎么做</li>
+              <li>assets/: 可复制的评测模板</li>
+            </ul>
+          </div>
+          <div class="module">
+            <h3><span class="dot green"></span>哪些地方必须人确认</h3>
+            <ul>
+              <li>测什么产品、什么版本</li>
+              <li>实验组是否公平隔离</li>
+              <li>题目、口径和评分权重</li>
+              <li>标准答案有争议就暂停</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="center-map">
+          <div class="map-title">运行一次评测会生成的文件边界</div>
+          <div class="lanes">
+            <div class="lane">
+              <h4>给实验组看</h4>
+              <span class="pill">公开题集</span>
+              <span class="pill">每组 prompt</span>
+              <span class="pill">结果填写模板</span>
+            </div>
+            <div class="lane">
+              <h4>评分时才看</h4>
+              <span class="pill">内部评分 key</span>
+              <span class="pill">标准 SQL / 校验逻辑</span>
+              <span class="pill">标准答案 JSON</span>
+            </div>
+            <div class="lane">
+              <h4>运行后记录</h4>
+              <span class="pill">每组最终回答</span>
+              <span class="pill">工具调用、耗时、错误</span>
+              <span class="pill">实际读取了哪些文件</span>
+            </div>
+            <div class="lane">
+              <h4>最后交付</h4>
+              <span class="pill">总分和逐题评分</span>
+              <span class="pill">失败类型和关键案例</span>
+              <span class="pill">可复用经验候选</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="module guardrail">
+            <h3><span class="dot rose"></span>为什么要分开这些文件</h3>
+            <ul>
+              <li>防止模型偷看答案</li>
+              <li>防止不同实验组互相污染</li>
+              <li>让评分依据可追溯</li>
+              <li>让结论能解释、能复跑</li>
+            </ul>
+          </div>
+          <div class="module">
+            <h3><span class="dot amber"></span>脚本负责哪些脏活</h3>
+            <ul>
+              <li>检查评测包结构</li>
+              <li>扫描公开文件泄漏</li>
+              <li>用标准 SQL 生成答案</li>
+              <li>生成评分工作表草稿</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="footer-note">1366 x 768 overview image for README</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Data Analysis AI Evaluator"
+  short_description: "Design source-separated evaluations for data-analysis AI products"
+  default_prompt: "Use $data-analysis-ai-evaluator to design a fair evaluation for a data-analysis AI product."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,10 @@
+{
+  "task_id": "q01_example",
+  "sql_file": "q01_example.sql",
+  "row_count": 2,
+  "columns": ["region", "order_count"],
+  "rows": [
+    {"region": "East", "order_count": 3},
+    {"region": "West", "order_count": 2}
+  ]
+}
